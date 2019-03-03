@@ -32,6 +32,7 @@ import { AddCompanyComponent } from './components/admin/add-company/add-company.
 import { FormularzeComponent } from './components/admin/formularze/formularze.component';
 import { CompanyComponent } from './components/admin/company/company.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { StopsComponent } from './components/admin/stops/stops.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       InfoDialogComponent,
       AddCompanyComponent,
       FormularzeComponent,
-      CompanyComponent
+      CompanyComponent,
+      StopsComponent
   ],
   imports: [
     BrowserModule,

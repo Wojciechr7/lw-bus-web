@@ -28,7 +28,7 @@ export class MainNavComponent {
                     {name: 'Szukaj Połączenia', route: ''},
                     {name: 'Obsługiwanie Busy', route: ''},
                     {name: 'Kontakt', route: ''},
-                    {name: 'Dla Pzewoźników', route: ''}
+                    {name: 'Dla Przewoźników', route: ''}
                 ]
             },
             admin: {
@@ -37,6 +37,7 @@ export class MainNavComponent {
                     {name: 'Logowanie', route: 'admin/login'},
                     {name: 'Dodaj Przewoźnika', route: 'admin/add-company'},
                     {name: 'Zarządzaj Przewoźnikami', route: 'admin/companies'},
+                    {name: 'Zarządzaj Przystankami', route: 'admin/stops'}
 
                 ]
             }
