@@ -1,0 +1,26 @@
+<section>
+    <mat-card class="login">
+        <mat-toolbar color="primary">
+            <span>Logowanie</span>
+        </mat-toolbar>
+        <form>
+            <mat-form-field>
+                <input matInput type="text" #user placeholder="Login" [formControl]="loginFormControl">
+                <mat-error *ngIf="loginFormControl.hasError('required')">
+                    Login jest <strong>wymagany</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="password" #pass placeholder="Hasło" [formControl]="passwordFormControl" [type]="hide ? 'password' : 'text'" (keydown.enter)="this.login(user.value, pass.value)">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                    Hasło jest <strong>wymagane</strong>
+                </mat-error>
+            </mat-form-field>
+        </form>
+        <mat-progress-spinner [diameter]="50" *ngIf="ls.loading" color="primary" mode="indeterminate"></mat-progress-spinner>
+        <button *ngIf="!ls.loading" class="login-btn" mat-raised-button color="primary" (click)="this.login(user.value, pass.value)">
+            Login
+        </button>
+    </mat-card>
+</section>

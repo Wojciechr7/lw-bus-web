@@ -1,0 +1,33 @@
+h2 {
+  text-align: center;
+}
+.users-container {
+  width: 95%;
+  margin: 20px auto;
+
+  table {
+    width: 100%;
+
+    .mat-row {
+      cursor: pointer;
+    }
+
+    .mat-row:hover {
+      background: #673ab7;
+
+      td {
+        color: white !important;
+      }
+    }
+  }
+}
+
+
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+mat-progress-spinner {
+  margin: auto;
+}

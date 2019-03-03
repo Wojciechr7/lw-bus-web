@@ -1,0 +1,41 @@
+<mat-card class="user-container">
+    <mat-toolbar color="primary">
+        <span>Profil Przewoźnika</span>
+    </mat-toolbar>
+    <div class="mat-elevation-z8">
+        <form *ngIf="companyData | async as company; else loading" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+            <mat-list role="list">
+                <mat-list-item role="listitem"><strong>Nazwa: </strong>
+                    <mat-form-field class="user-input">
+                        <input matInput placeholder="Nazwa" formControlName="name" [value]="company.name">
+                        <mat-error *ngIf="f.name.errors">
+                            Nazwa jest <strong>wymagana</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item role="listitem"><strong>Login: </strong>
+                    <mat-form-field class="user-input">
+                        <input matInput placeholder="Login" formControlName="login" [value]="company.login">
+                        <mat-error *ngIf="f.login.errors">
+                            Login jest <strong>wymagany</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item role="listitem"><strong>Email: </strong>
+                    <mat-form-field class="user-input">
+                        <input matInput placeholder="Email" formControlName="email" [value]="company.email">
+                        <mat-error *ngIf="f.email.errors">
+                            <div *ngIf="f.email.errors.required">Email jest <strong>wymagany</strong></div>
+                            <div *ngIf="f.email.errors.email">Email ma zły <strong>format</strong></div>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-list-item>
+            </mat-list>
+            <mat-progress-spinner *ngIf="editing" [diameter]="50" color="primary" mode="indeterminate"></mat-progress-spinner>
+            <button *ngIf="!editing" mat-raised-button color="primary">Zapisz</button>
+        </form>
+        <ng-template #loading>
+            <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate"></mat-progress-spinner>
+        </ng-template>
+    </div>
+</mat-card>

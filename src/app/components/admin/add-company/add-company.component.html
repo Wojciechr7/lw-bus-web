@@ -1,0 +1,42 @@
+<mat-card class="user-container">
+    <mat-toolbar color="primary">
+        <span>Utwórz Przewoźnika</span>
+    </mat-toolbar>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <input matInput type="text" formControlName="name" placeholder="Nazwa">
+            <mat-error *ngIf="f.name.errors">
+                Nazwa jest <strong>wymagana</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="text" formControlName="login" placeholder="Login">
+            <mat-error *ngIf="f.login.errors">
+                Login jest <strong>wymagany</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="password" formControlName="pass" placeholder="Hasło"
+                   [type]="hide ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="f.pass.errors">
+                Hasło jest <strong>wymagane</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="email" formControlName="email" placeholder="Email">
+            <mat-error *ngIf="f.email.errors">
+                <div *ngIf="f.email.errors.required">Email jest <strong>wymagany</strong></div>
+                <div *ngIf="f.email.errors.email">Email ma zły <strong>format</strong></div>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-progress-spinner [diameter]="50" *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-spinner>
+        <button *ngIf="!loading" mat-raised-button color="primary">Utwórz</button>
+
+    </form>
+</mat-card>

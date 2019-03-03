@@ -1,0 +1,24 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav.mat-drawer-side {
+  width: 200px;
+  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+  border-right: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+.user-welcome {
+  width: 100%;
+  text-align: right;
+
+  & {
+    @media (max-width: 420px) {
+      display: none;
+    }
+  }
+}

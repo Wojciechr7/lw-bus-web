@@ -1,0 +1,33 @@
+.user-container {
+  width: 400px;
+  margin: 20px auto;
+
+  @media (max-width: 500px) {
+    & {
+      width: 300px;
+    }
+  }
+
+
+  mat-progress-spinner {
+    margin: auto;
+  }
+
+  form {
+    display: flex;
+    flex-flow: column;
+
+    mat-form-field {
+      margin-top: 10px;
+    }
+
+    mat-form-field:last-child {
+      margin-bottom: 20px;
+    }
+  }
+  button {
+    align-self: flex-end;
+    width: 100px;
+  }
+
+}
