@@ -1,0 +1,18 @@
+table {
+  width: 100%;
+
+  .mat-row {
+    cursor: pointer;
+  }
+
+  .mat-row:hover {
+    background: #673ab7;
+
+    mat-cell {
+      color: white !important;
+    }
+  }
+}
+mat-progress-spinner {
+  margin: auto;
+}

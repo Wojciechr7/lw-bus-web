@@ -1,0 +1,34 @@
+<mat-card *ngIf="openedRoute" class="container">
+  <mat-toolbar color="primary">
+    <span>Trasa: {{openedRoute.id}}</span>
+  </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa" formControlName="StartLocFormControl">
+        <mat-error *ngIf="f.StartLocFormControl.errors">
+          <ng-container *ngIf="f.StartLocFormControl.hasError('required') ">Lokalizacja początkowa jest wymagana</ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa" formControlName="EndLocFormControl">
+        <mat-error *ngIf="f.EndLocFormControl.errors">
+          <ng-container *ngIf="f.EndLocFormControl.hasError('required') ">Lokalizacja końcowa jest wymagana</ng-container>
+        </mat-error>
+      </mat-form-field>
+    <div>
+      <h4>Przebieg trasy</h4>
+      <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let stop of openedRoute.stop" cdkDrag>
+          <span>{{stop.name}}</span>
+          <mat-icon (click)="deleteStop(stop.id)">delete</mat-icon>
+        </div>
+        <button (click)="addStop()" type="button" class="add-stop" mat-raised-button color="primary">+</button>
+      </div>
+    </div>
+      <button class="save-btn" mat-raised-button color="primary">Zapisz trasę</button>
+    </form>
+
+  </div>
+</mat-card>

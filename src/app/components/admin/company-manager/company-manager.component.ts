@@ -3,6 +3,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {AdminService} from '../../../services/admin.service';
 import {IUser} from '../../../models/user';
 import {Router} from '@angular/router';
+import {TableFieldModel} from '../../../modules/table-builder/table/table.component';
 
 
 @Component({
@@ -13,32 +14,40 @@ import {Router} from '@angular/router';
 export class CompanyManagerComponent implements OnInit {
 
   private users: IUser[];
-  public loading: boolean;
-
-  displayedColumns: string[] = ['id', 'name', 'login', 'email'];
-  dataSource = new MatTableDataSource(this.users);
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  tableFields: TableFieldModel[];
 
   constructor(private as: AdminService, private router: Router) {
-    this.loading = true;
+    this.tableFields = [
+      {
+        column: 'id',
+        header: 'Id.'
+      },
+      {
+        column: 'name',
+        header: 'Name'
+      },
+      {
+        column: 'login',
+        header: 'Login'
+      },
+      {
+        column: 'email',
+        header: 'Email'
+      }
+    ];
+  }
+
+  rowClick(data) {
+    this.redirect('/admin/companies/' + data.id);
   }
 
   public redirect(loc: string) {
     this.router.navigate([loc]);
-
   }
 
   ngOnInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-
     this.as.getUsers().subscribe((data: Array<IUser>) => {
       this.users = [...data];
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.loading = false;
     });
   }
 

@@ -1,0 +1,33 @@
+.stops-container {
+  max-width: 400px;
+  margin: 20px auto;
+
+
+  form {
+    display: flex;
+    justify-content: space-between;
+
+    .city-input {
+      width: max-content;
+      margin-left: 16px;
+    }
+
+
+    button {
+      height: fit-content;
+      margin: auto 16px;
+
+    }
+  }
+  .city-item {
+
+    strong {
+      margin: auto auto auto 0;
+    }
+
+    button {
+      margin: auto 0 auto auto;
+    }
+  }
+
+}

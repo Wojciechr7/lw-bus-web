@@ -1,0 +1,14 @@
+<table mat-table [dataSource]="dataSource" matSort>
+  <ng-container *ngFor="let field of tableFields" [matColumnDef]="field.column">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>{{field.header}}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element[field.column] }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns" (click)="emitClickRow(row)"></mat-row>
+
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+<mat-progress-spinner [diameter]="50" *ngIf="loading" color="primary"
+                      mode="indeterminate"></mat-progress-spinner>

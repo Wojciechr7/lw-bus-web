@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Wybierz z listy</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>{{data.label}}</mat-label>
+    <mat-select #selectMult multiple>
+      <mat-option *ngFor="let field of data.addFields" [value]="field.id">{{field.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="closeDialog(selectMult.value)">OK</button>
+</div>

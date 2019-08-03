@@ -37,7 +37,8 @@ export class MainNavComponent {
                     {name: 'Logowanie', route: 'admin/login'},
                     {name: 'Dodaj Przewoźnika', route: 'admin/add-company'},
                     {name: 'Zarządzaj Przewoźnikami', route: 'admin/companies'},
-                    {name: 'Zarządzaj Przystankami', route: 'admin/stops'}
+                    {name: 'Zarządzaj Przystankami', route: 'admin/stops'},
+                    {name: 'Zarządzaj Trasami', route: 'admin/routes'}
 
                 ]
             }
