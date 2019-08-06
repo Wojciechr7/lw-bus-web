@@ -37,6 +37,12 @@ import {TableBuilderModule} from './modules/table-builder/table-builder.module';
 import {SingleRouteComponent} from './components/admin/route-manager/single-route/single-route.component';
 import {AddDialogComponent} from './dialogs/add/add.dialog';
 import {ConfirmDialogComponent} from './dialogs/confirm/confirm.dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {SuccessSnackbarComponent} from './snackbars/success-snackbar/success-snackbar.component';
+import {ErrorSnackbarComponent} from './snackbars/error-snackbar/error-snackbar.component';
+import {WarningSnackbarComponent} from './snackbars/warning-snackbar/warning-snackbar.component';
+import {InfoSnackbarComponent} from './snackbars/info-snackbar/info-snackbar.component';
+import {MatAutocompleteModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -53,7 +59,11 @@ import {ConfirmDialogComponent} from './dialogs/confirm/confirm.dialog';
     CompanyComponent,
     StopsComponent,
     RouteManagerComponent,
-    SingleRouteComponent
+    SingleRouteComponent,
+    SuccessSnackbarComponent,
+    ErrorSnackbarComponent,
+    WarningSnackbarComponent,
+    InfoSnackbarComponent
   ],
   imports: [
     TableBuilderModule,
@@ -87,13 +97,23 @@ import {ConfirmDialogComponent} from './dialogs/confirm/confirm.dialog';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    MatAutocompleteModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [InfoDialogComponent, AddDialogComponent, ConfirmDialogComponent]
+  entryComponents: [
+    InfoDialogComponent,
+    AddDialogComponent,
+    ConfirmDialogComponent,
+    SuccessSnackbarComponent,
+    InfoSnackbarComponent,
+    ErrorSnackbarComponent,
+    WarningSnackbarComponent
+  ]
 })
 export class AppModule {
 }

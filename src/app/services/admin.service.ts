@@ -88,4 +88,12 @@ export class AdminService {
     return this.http.put(`${this.url}/routes/${id}`, route);
   }
 
+  public postRoute(route): Observable<any> {
+    return this.http.post(`${this.url}/routes`, route);
+  }
+
+  public deleteRoute(id): Observable<any> {
+    return this.http.delete(`${this.url}/routes/${id}`);
+  }
+
 }

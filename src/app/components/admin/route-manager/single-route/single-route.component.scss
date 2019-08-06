@@ -63,14 +63,46 @@ h2, h4 {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-mat-icon {
+.trash {
+  cursor: pointer;
+
+  &:hover {
+    color: red;
+  }
+}
+
+.reverse-inputs {
+  margin: auto;
   cursor: pointer;
 }
+
 .add-stop {
   width: 100%;
 }
 
-.save-btn {
+.actions {
+  display: flex;
+  padding: 10px;
+
+  button:first-child {
+    margin-right: 5px;
+  }
+
+  button:last-child {
+    margin-left: 5px;
+  }
+}
+
+.form-actions {
   margin-top: 30px;
-  width: 150px;
+  display: flex;
+  width: 100%;
+
+  button:first-child {
+    margin-right: 5px;
+  }
+
+  button:last-child {
+    margin-left: auto;
+  }
 }

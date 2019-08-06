@@ -4,4 +4,18 @@ h2 {
 .container {
   width: 95%;
   margin: 20px auto;
+
+  form {
+    display: flex;
+    flex-flow: column;
+    padding: 20px 40px;
+
+    mat-form-field {
+      margin-top: 15px;
+    }
+
+    .save-btn {
+      margin-top: 30px;
+    }
+  }
 }

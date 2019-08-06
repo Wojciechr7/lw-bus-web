@@ -6,3 +6,51 @@
     <app-table [tableFields]="tableFields" [tableData]="routes" (clickAction)="rowClick($event)"></app-table>
   </div>
 </mat-card>
+
+<mat-card class="container">
+  <mat-toolbar color="primary">
+    <span>Dodawanie trasy</span>
+  </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <mat-form-field>
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa"
+               formControlName="StartLocFormControl" [matAutocomplete]="auto">
+        <mat-error *ngIf="f.StartLocFormControl.errors">
+          <ng-container *ngIf="f.StartLocFormControl.hasError('required')">Lokalizacja początkowa jest wymagana
+          </ng-container>
+          <ng-container
+            *ngIf="!f.StartLocFormControl.hasError('required') && f.StartLocFormControl.hasError('noCustom')">Dozwolona
+            tylko lokalizacja z listy przystanków
+          </ng-container>
+        </mat-error>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <input matInput type="text" #EndInput maxlength="25" placeholder="Lokalizacja końcowa"
+               formControlName="EndLocFormControl" [matAutocomplete]="auto2">
+        <mat-error *ngIf="f.EndLocFormControl.errors">
+          <ng-container *ngIf="f.EndLocFormControl.hasError('required')">Lokalizacja końcowa jest wymagana
+          </ng-container>
+          <ng-container *ngIf="!f.EndLocFormControl.hasError('required') && f.EndLocFormControl.hasError('noCustom')">
+            Dozwolona tylko lokalizacja z listy przystanków
+          </ng-container>
+        </mat-error>
+
+        <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptionsEnd | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button class="save-btn" mat-raised-button color="primary">Zapisz trasę</button>
+    </form>
+  </div>
+</mat-card>

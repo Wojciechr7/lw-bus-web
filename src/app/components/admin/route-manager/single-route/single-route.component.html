@@ -5,14 +5,14 @@
   <div class="mat-elevation-z8">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
-        <input matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa" formControlName="StartLocFormControl">
+        <input [readonly]="true" matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa" formControlName="StartLocFormControl">
         <mat-error *ngIf="f.StartLocFormControl.errors">
           <ng-container *ngIf="f.StartLocFormControl.hasError('required') ">Lokalizacja początkowa jest wymagana</ng-container>
         </mat-error>
       </mat-form-field>
-
+      <mat-icon (click)="reverseInputs()" class="reverse-inputs">loop</mat-icon>
       <mat-form-field>
-        <input matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa" formControlName="EndLocFormControl">
+        <input [readonly]="true" matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa" formControlName="EndLocFormControl">
         <mat-error *ngIf="f.EndLocFormControl.errors">
           <ng-container *ngIf="f.EndLocFormControl.hasError('required') ">Lokalizacja końcowa jest wymagana</ng-container>
         </mat-error>
@@ -21,13 +21,21 @@
       <h4>Przebieg trasy</h4>
       <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let stop of openedRoute.stop" cdkDrag>
-          <span>{{stop.name}}</span>
-          <mat-icon (click)="deleteStop(stop.id)">delete</mat-icon>
+          <span>{{stop.id}}: {{stop.name}}</span>
+          <mat-icon (click)="deleteStop(stop.id)" class="trash">delete</mat-icon>
         </div>
-        <button (click)="addStop()" type="button" class="add-stop" mat-raised-button color="primary">+</button>
+        <div class="actions">
+          <button (click)="reverseStops()" type="button" class="add-stop" mat-raised-button color="primary"><mat-icon>loop</mat-icon></button>
+          <button (click)="addStop()" type="button" class="add-stop" mat-raised-button color="primary"><mat-icon>add</mat-icon></button>
+        </div>
       </div>
     </div>
-      <button class="save-btn" mat-raised-button color="primary">Zapisz trasę</button>
+      <div class="form-actions">
+        <button class="save-btn" mat-raised-button color="primary">Zapisz zmiany</button>
+        <button (click)="saveAsNew()" type="button" class="save-btn" mat-raised-button color="primary">Zapisz jako nową trasę</button>
+        <button (click)="removeRoute()" type="button" class="save-btn" mat-raised-button color="warn">Usuń trasę</button>
+      </div>
+
     </form>
 
   </div>
