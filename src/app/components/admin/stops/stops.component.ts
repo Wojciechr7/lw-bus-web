@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AdminService} from '../../../services/admin.service';
 import {IStop} from '../../../models/stop';
-import {Observable} from 'rxjs';
 import {DialogService} from '../../../services/dialog.service';
 
 @Component({
@@ -13,16 +12,20 @@ import {DialogService} from '../../../services/dialog.service';
 export class StopsComponent implements OnInit {
 
   public cityForm: FormGroup;
-  public stops: Observable<Array<IStop>>;
-  // public arrStops: Array<IStop>;
+  public stops: Array<IStop>;
 
-  constructor(private formBuilder: FormBuilder, private as: AdminService, private ds: DialogService) { }
-
+  constructor(private formBuilder: FormBuilder, private as: AdminService, private ds: DialogService) {
+  }
 
   public onSubmit() {
     if (!this.cityForm.invalid) {
       this.as.addCity({name: this.cityForm.value.city} as IStop).subscribe((data: IStop) => {
-        this.stops = this.as.getCities();
+        console.log(data);
+        this.stops = [
+          ...this.stops,
+          data
+        ];
+        this.cityForm.get('city').setValue('');
       });
     }
   }
@@ -30,8 +33,8 @@ export class StopsComponent implements OnInit {
   removeStop(stop) {
     this.ds.openConfirmDialog(`Czy na pewno chcesz usunąć przystanek ${stop.name}?`).subscribe(decision => {
       if (decision) {
-        this.as.removeCity(stop.id).subscribe(data => {
-          this.stops = this.as.getCities();
+        this.as.removeCity(stop.id).subscribe(() => {
+          this.stops = this.stops.filter(s => s.name !== stop.name);
         });
       }
     });
@@ -41,12 +44,9 @@ export class StopsComponent implements OnInit {
     this.cityForm = this.formBuilder.group({
       city: ['', Validators.required]
     });
-    /*this.as.getCities().subscribe(data => {
-      console.log(data);
-      this.arrStops = data;
-    });*/
-
-     this.stops = this.as.getCities();
+    this.as.getCities().subscribe(stops => {
+      this.stops = stops;
+    });
   }
 
 }

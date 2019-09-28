@@ -5,18 +5,16 @@ import { Injectable } from '@angular/core';
 })
 export class AppService {
 
-
-
-  // standard, admin
+  // standard, admin, company
   private appMode: string;
 
   constructor() {
   }
 
-
   set AppMode(am: string) {
     this.appMode = am;
   }
+
   get AppMode(): string {
     return this.appMode;
   }

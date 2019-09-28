@@ -18,8 +18,7 @@
                 </mat-error>
             </mat-form-field>
         </form>
-        <mat-progress-spinner [diameter]="50" *ngIf="ls.loading" color="primary" mode="indeterminate"></mat-progress-spinner>
-        <button *ngIf="!ls.loading" class="login-btn" mat-raised-button color="primary" (click)="this.login(user.value, pass.value)">
+        <button class="login-btn" mat-raised-button color="primary" (click)="this.login(user.value, pass.value)">
             Login
         </button>
     </mat-card>

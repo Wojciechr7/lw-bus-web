@@ -1,3 +1,6 @@
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Szukaj">
+</mat-form-field>
 <table mat-table [dataSource]="dataSource" matSort>
   <ng-container *ngFor="let field of tableFields" [matColumnDef]="field.column">
     <mat-header-cell *matHeaderCellDef mat-sort-header>{{field.header}}</mat-header-cell>
@@ -10,5 +13,5 @@
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-<mat-progress-spinner [diameter]="50" *ngIf="loading" color="primary"
-                      mode="indeterminate"></mat-progress-spinner>
+
+

@@ -1,15 +1,23 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    <mat-sidenav #drawer class="sidenav base-sidebar" fixedInViewport="true"
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="!(isHandset$ | async)">
-        <mat-toolbar color="primary">Menu</mat-toolbar>
+        <mat-toolbar>
+          <span class="app-title">
+            <a href="/">LW BUS</a>
+          </span>
+        </mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item href="javascript:void(0)" *ngFor="let btn of this.navbarSetup[this.as.AppMode]?.buttons" (click)="this.redirect(btn.route)">{{btn.name}}</a>
+            <a mat-list-item href="javascript:void(0)" *ngFor="let btn of this.navbarSetup[this.as.AppMode]?.buttons" (click)="this.redirect(btn.route)">
+              <mat-icon>{{btn.icon}}</mat-icon>
+              &nbsp;{{btn.name}}
+            </a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
+        <mat-toolbar class="base-navbar">
+          <span class="navbar-bg">
             <button
                     type="button"
                     aria-label="Toggle sidenav"
@@ -18,9 +26,9 @@
                     *ngIf="isHandset$ | async">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-            <span><a routerLink="/">{{this.navbarSetup[this.as.AppMode]?.title}}</a></span>
+<!--            <span><a routerLink="/">{{this.navbarSetup[this.as.AppMode]?.title}}</a></span>-->
+          </span>
         </mat-toolbar>
         <ng-content></ng-content>
-        <!-- Add Content Here -->
     </mat-sidenav-content>
 </mat-sidenav-container>

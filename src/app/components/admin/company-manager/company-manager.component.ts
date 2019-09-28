@@ -12,7 +12,7 @@ import {TableFieldModel} from '../../../modules/table-builder/table/table.compon
 })
 export class CompanyManagerComponent implements OnInit {
 
-  private users: IUser[];
+  public users: IUser[];
   tableFields: TableFieldModel[];
 
   constructor(private as: AdminService, private router: Router) {

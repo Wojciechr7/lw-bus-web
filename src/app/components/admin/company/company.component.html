@@ -3,7 +3,7 @@
         <span>Profil Przewoźnika</span>
     </mat-toolbar>
     <div class="mat-elevation-z8">
-        <form *ngIf="companyData | async as company; else loading" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <form *ngIf="companyData | async as company" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
             <mat-list role="list">
                 <mat-list-item role="listitem"><strong>Nazwa: </strong>
                     <mat-form-field class="user-input">
@@ -31,11 +31,12 @@
                     </mat-form-field>
                 </mat-list-item>
             </mat-list>
-            <mat-progress-spinner *ngIf="editing" [diameter]="50" color="primary" mode="indeterminate"></mat-progress-spinner>
-            <button *ngIf="!editing" mat-raised-button color="primary">Zapisz</button>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary">Zapisz</button>
+            <button mat-raised-button type="button" (click)="changePassword()" color="accent">Zmień hasło</button>
+            <button mat-raised-button type="button" (click)="deleteUser()" color="warn">Usuń użytkownika</button>
+          </div>
+
         </form>
-        <ng-template #loading>
-            <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate"></mat-progress-spinner>
-        </ng-template>
     </div>
 </mat-card>

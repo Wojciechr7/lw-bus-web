@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {SuccessSnackbarComponent} from './success-snackbar/success-snackbar.component';
 import {WarningSnackbarComponent} from './warning-snackbar/warning-snackbar.component';
 import {InfoSnackbarComponent} from './info-snackbar/info-snackbar.component';

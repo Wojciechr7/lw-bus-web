@@ -1,25 +1,39 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {AuthenticationService} from '../services/authentication.service';
+import {SnackbarService} from '../snackbars/snackbar.service';
 
-import { AuthenticationService } from '../services/authentication.service';
-
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
-    constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
-    ) { }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private snack: SnackbarService
+  ) {
+  }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.currentUserValue;
-        if (currentUser) {
-            // logged in so return true
-            return true;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const currentUser = this.authenticationService.currentUserValue;
+    if (currentUser) {
+      if (route.data.role && !currentUser.roles.map(role => role.name).includes(route.data.role)) {
+        this.snack.warning('Brak uprawnień');
+        if (route.data.role === 'admin') {
+          this.router.navigate(['/admin/login']);
         }
-
-        // not logged in so redirect to login page with the return url
-        // { queryParams: { returnUrl: state.url }
-        this.router.navigate(['/admin/login'] );
+        if (route.data.role === 'user') {
+          this.router.navigate(['/for-company/login']);
+        }
         return false;
+      }
+      return true;
     }
+    this.snack.warning('Brak uprawnień');
+    if (route.data.role === 'admin') {
+      this.router.navigate(['/admin/login']);
+    }
+    if (route.data.role === 'user') {
+      this.router.navigate(['/for-company/login']);
+    }
+    return false;
+  }
 }

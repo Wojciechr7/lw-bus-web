@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {LoginService} from '../../services/login.service';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
 import {ILoginData} from '../../models/login';
 import {SnackbarService} from '../../snackbars/snackbar.service';
+import {AppService} from '../../services/app.service';
 
 @Component({
   selector: 'app-login',
@@ -23,12 +23,11 @@ export class LoginComponent implements OnInit {
   public hide: boolean;
 
   constructor(
-    public ls: LoginService,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private snack: SnackbarService
+    private snack: SnackbarService,
+    private as: AppService
   ) {
-    this.ls.loading = false;
     this.hide = true;
   }
 
@@ -37,17 +36,20 @@ export class LoginComponent implements OnInit {
       login: loginParams[0],
       pass: loginParams[1]
     };
-    this.ls.loading = true;
 
     this.authenticationService.login(userData as ILoginData)
       .pipe(first())
       .subscribe(
         data => {
           this.snack.success('Pomyślne logowanie');
-          this.router.navigate(['/admin/companies']);
+          if (this.as.AppMode === 'admin') {
+            this.router.navigate(['/admin/companies']);
+          } else if (this.as.AppMode === 'company') {
+            this.router.navigate(['/for-company/view']);
+          }
+
         },
         error => {
-          this.ls.loading = false;
         });
   }
 

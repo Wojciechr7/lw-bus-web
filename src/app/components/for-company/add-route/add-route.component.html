@@ -1,0 +1,73 @@
+<mat-card *ngIf="openedRoute" class="container">
+  <mat-toolbar color="primary">
+    <span>Dodawanie trasy</span>
+  </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <button
+        class="import-template"
+        matTooltip="Wykorzystaj szablon żeby szybciej stworzyć swoją trasę!"
+        matTooltipPosition="above"
+        type="button"
+        mat-raised-button
+        #tooltip="matTooltip"
+        color="primary"
+        (click)="importTemplate()">
+        Importuj szablon trasy
+      </button>
+      <p *ngIf="this.openedRoute.from"><b>Lokalizacja początkowa: </b>{{this.openedRoute.from}}</p>
+      <p *ngIf="this.openedRoute.to && this.openedRoute.stops.length > 1"><b>Lokalizacja
+        końcowa: </b>{{this.openedRoute.to}}</p>
+      <mat-form-field>
+        <input matInput type="number" maxlength="25" placeholder="Cena za cały przejazd"
+               formControlName="PriceFormControl">
+        <p matSuffix>zł</p>
+        <mat-error *ngIf="f.PriceFormControl.errors">
+          <ng-container *ngIf="f.PriceFormControl.hasError('required')">Cena jest wymagana
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+      <div class="checkbox-container">
+        <p><b>Kursuje w dniach:</b></p>
+        <mat-checkbox color="primary" *ngFor="let day of days; let i = index" [checked]="day.checked"
+                      (change)="dayChange(i, $event.checked)">{{day.name}}</mat-checkbox>
+      </div>
+      <div>
+        <p><b>Dni wolne:</b></p>
+        <div class="date-container">
+          <ul>
+            <li *ngFor="let day of freeDays; let i = index">
+              {{day | date:'d MMMM'}}
+              <mat-icon (click)="removeDate(i)">close</mat-icon>
+            </li>
+          </ul>
+          <input class="hidden" matInput [matDatepicker]="picker" (dateChange)="addDate($event.value)">
+          <mat-datepicker #picker></mat-datepicker>
+          <button class="add-date-button" type="button" mat-raised-button (click)="picker.open()">Dodaj dzień wolny
+          </button>
+        </div>
+      </div>
+      <div>
+        <h4>Przebieg trasy <span *ngIf="totalTime">(Czas: {{totalTime[0]}}h, {{totalTime[1]}}min)</span></h4>
+        <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let stop of openedRoute.stops; let i = index" cdkDrag>
+            <span>{{i + 1}}: {{stop.name}}</span>
+            <mat-form-field class="time-input">
+              <input type="time" matInput placeholder="Czas odjazdu" (change)="updateStopTime($event.target.value, i)">
+            </mat-form-field>
+            <mat-icon (click)="deleteStop(stop.index)" class="trash">delete</mat-icon>
+          </div>
+          <div class="actions">
+            <button (click)="reverseStops()" type="button" class="add-stop" mat-raised-button color="primary">
+              <mat-icon>loop</mat-icon>
+            </button>
+            <button (click)="addStop()" type="button" class="add-stop" mat-raised-button color="primary">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="save-btn" mat-raised-button color="primary">Zapisz trasę</button>
+    </form>
+  </div>
+</mat-card>

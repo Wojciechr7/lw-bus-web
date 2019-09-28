@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { IUser } from '../models/user';
-import {GLOBAL} from '../config';
 import {ILoginData} from '../models/login';
+import {environment} from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -16,7 +15,7 @@ export class AuthenticationService {
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
-        this.url = GLOBAL.URL;
+        this.url = environment.URL;
     }
 
     public get currentUserValue(): IUser {
@@ -26,19 +25,15 @@ export class AuthenticationService {
     login(data: ILoginData) {
         return this.http.post<any>(`${this.url}/authenticate`, data)
             .pipe(map(user => {
-                // login successful if there's a jwt token in the response
                 if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
-
                 return user;
             }));
     }
 
     logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }

@@ -6,7 +6,8 @@ import {catchError} from 'rxjs/operators';
 import {AuthenticationService} from '../services/authentication.service';
 import {DialogService} from '../services/dialog.service';
 import {SnackbarService} from '../snackbars/snackbar.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AppService} from '../services/app.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -14,7 +15,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     private authenticationService: AuthenticationService,
     private ds: DialogService,
     private snack: SnackbarService,
-    private router: Router
+    private router: Router,
+    private as: AppService
   ) {
   }
 
@@ -23,12 +25,22 @@ export class ErrorInterceptor implements HttpInterceptor {
       if (err.status === 401) {
         this.authenticationService.logout();
         this.snack.error('Problem z autoryzacją użytkownika!');
-        this.router.navigate(['/admin/login']);
+        if (this.as.AppMode === 'admin') {
+          this.router.navigate(['/admin/login']);
+        }
+        if (this.as.AppMode === 'company') {
+          this.router.navigate(['/for-company/login']);
+        }
       }
       if (err.status === 403) {
         this.authenticationService.logout();
         this.snack.error('Brak uprawnień do wykonania tej operacji!');
-        this.router.navigate(['/admin/login']);
+        if (this.as.AppMode === 'admin') {
+          this.router.navigate(['/admin/login']);
+        }
+        if (this.as.AppMode === 'company') {
+          this.router.navigate(['/for-company/login']);
+        }
       }
       if (err.status === 409) {
         this.snack.warning('Wyprowadź unikalne dane w formularzu!');

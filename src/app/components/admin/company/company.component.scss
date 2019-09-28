@@ -20,17 +20,12 @@
       }
     }
 
-    button {
-      width: 100px;
-      margin: 20px;
-      align-self: flex-end;
+    .action-buttons {
+
+      button {
+        margin: 15px;
+      }
     }
   }
-
-  mat-progress-spinner {
-    margin: auto;
-  }
-
-
 
 }

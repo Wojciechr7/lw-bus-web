@@ -13,12 +13,9 @@ export class AddCompanyComponent implements OnInit {
 
     public registerForm: FormGroup;
     public hide: boolean;
-    public loading: boolean;
 
     constructor(private as: AdminService, private formBuilder: FormBuilder, private ds: DialogService) {
         this.hide = true;
-        this.loading = false;
-
     }
 
     get f(): any {
@@ -40,9 +37,7 @@ export class AddCompanyComponent implements OnInit {
     public onSubmit(): void {
 
         if (!this.registerForm.invalid) {
-            this.loading = true;
             this.as.createUser(this.registerForm.value as IUser).subscribe((response: number) => {
-                this.loading = false;
                 this.ds.openInfoDialog('User created!', `/admin/companies/${response}`);
             });
         }

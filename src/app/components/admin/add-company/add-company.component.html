@@ -34,9 +34,7 @@
                 <div *ngIf="f.email.errors.email">Email ma zły <strong>format</strong></div>
             </mat-error>
         </mat-form-field>
-
-        <mat-progress-spinner [diameter]="50" *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-spinner>
-        <button *ngIf="!loading" mat-raised-button color="primary">Utwórz</button>
+        <button mat-raised-button color="primary">Utwórz</button>
 
     </form>
 </mat-card>

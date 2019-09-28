@@ -17,7 +17,6 @@ export class CompanyComponent implements OnInit {
 
   public companyData: Observable<IUser>;
   public companyForm: FormGroup;
-  public editing: boolean;
   private userId: number;
 
   constructor(
@@ -28,7 +27,6 @@ export class CompanyComponent implements OnInit {
     private ds: DialogService,
     private snack: SnackbarService
   ) {
-    this.editing = false;
   }
 
   get f(): any {
@@ -37,12 +35,31 @@ export class CompanyComponent implements OnInit {
 
   public onSubmit(): void {
     if (!this.companyForm.invalid) {
-      this.editing = true;
       this.as.editUser(this.companyForm.value as IUser, this.userId).subscribe((user: IUser) => {
-        this.editing = false;
         this.snack.success('Zmiany zostały zapisane');
       });
     }
+  }
+
+  changePassword() {
+    this.ds.openChangePasswordDialog().subscribe(result => {
+      if (result) {
+        this.as.changeUserPassword(result, this.userId).subscribe(() => {
+          this.snack.success('Hasło zostało zmienione');
+        });
+      }
+    });
+  }
+
+  deleteUser() {
+    this.ds.openConfirmDialog('Czy na pewno chcesz usunąć tego użytkownika?').subscribe(result => {
+      if (result) {
+        this.as.deleteUser(this.userId).subscribe(() => {
+          this.snack.success('Użytkownik został usunięty');
+          this.router.navigate(['../'], {relativeTo: this.route});
+        });
+      }
+    });
   }
 
   ngOnInit() {

@@ -9,28 +9,47 @@ import {AddCompanyComponent} from './components/admin/add-company/add-company.co
 import {CompanyComponent} from './components/admin/company/company.component';
 import {StopsComponent} from './components/admin/stops/stops.component';
 import {RouteManagerComponent} from './components/admin/route-manager/route-manager.component';
+import {ForCompanyComponent} from './components/for-company/for-company.component';
+import {AddRouteComponent} from './components/for-company/add-route/add-route.component';
+import {ViewRoutesComponent} from './components/for-company/view-routes/view-routes.component';
+import {InfoComponent} from './components/for-company/info/info.component';
 import {SingleRouteComponent} from './components/admin/route-manager/single-route/single-route.component';
+import {SingleRouteUserComponent} from './components/for-company/single-route/single-route.component';
+import {FindRoutesComponent} from './components/home/find-routes/find-routes.component';
 
 const routes: Routes = [
   /*{ path: '',
     redirectTo: '/admin/stops',
     pathMatch: 'full'
   },*/
-  {path: '', component: HomeComponent},
-  {path: 'admin', component: AdminComponent, children: [
-      {path: '', redirectTo: 'companies', pathMatch: 'full'},
-      {path: 'login', component: LoginComponent},
-      {path: 'companies', component: CompanyManagerComponent, canActivate: [AuthGuard]},
-      {path: 'add-company', component: AddCompanyComponent, canActivate: [AuthGuard]},
-      {path: 'companies/:id', component: CompanyComponent, canActivate: [AuthGuard]},
-      {path: 'stops', component: StopsComponent, canActivate: [AuthGuard]},
-      {path: 'routes', component: RouteManagerComponent, canActivate: [AuthGuard]},
-      {path: 'routes/:id', component: SingleRouteComponent, canActivate: [AuthGuard]}
+  {path: '', component: HomeComponent, children: [
+      {path: '', redirectTo: 'find-routes', pathMatch: 'full'},
+      {path: 'find-routes', component: FindRoutesComponent}
+    ]},
+  {path: 'admin', component: AdminComponent, data: { role: 'admin'}, children: [
+      {path: '', redirectTo: 'companies', pathMatch: 'full', canActivate: [AuthGuard], data: { role: 'admin'}},
+      {path: 'login', component: LoginComponent, data: { role: 'admin'}},
+      {path: 'companies', component: CompanyManagerComponent, canActivate: [AuthGuard], data: { role: 'admin'}},
+      {path: 'add-company', component: AddCompanyComponent, canActivate: [AuthGuard], data: { role: 'admin'}},
+      {path: 'companies/:id', component: CompanyComponent, canActivate: [AuthGuard], data: { role: 'admin'}},
+      {path: 'stops', component: StopsComponent, data: { role: 'admin'}},
+      {path: 'routes', component: RouteManagerComponent, canActivate: [AuthGuard], data: { role: 'admin'}},
+      {path: 'routes/:id', component: SingleRouteComponent, canActivate: [AuthGuard], data: { role: 'admin'}}
+    ]},
+  {path: 'for-company', component: ForCompanyComponent, data: { role: 'user' }, children: [
+      {path: '', redirectTo: 'view', pathMatch: 'full', canActivate: [AuthGuard], data: { role: 'user' }},
+      {path: 'login', component: LoginComponent, data: { role: 'user' }},
+      {path: 'add', component: AddRouteComponent, canActivate: [AuthGuard], data: { role: 'user' }},
+      {path: 'view', component: ViewRoutesComponent, canActivate: [AuthGuard], data: { role: 'user' }},
+      {path: 'view/:id', component: SingleRouteUserComponent, canActivate: [AuthGuard], data: { role: 'user' }},
+      {path: 'info', component: InfoComponent, canActivate: [AuthGuard], data: { role: 'user' }}
     ]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

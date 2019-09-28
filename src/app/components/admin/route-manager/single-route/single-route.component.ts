@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminService} from '../../../../services/admin.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,15 +11,16 @@ import {SnackbarService} from '../../../../snackbars/snackbar.service';
   templateUrl: './single-route.component.html',
   styleUrls: ['./single-route.component.scss']
 })
-export class SingleRouteComponent implements OnInit {
+export class SingleRouteComponent implements OnInit, DoCheck {
 
   routeId;
   openedRoute;
   allStops;
   public form: FormGroup;
+  private openedRouteDiffer: KeyValueDiffer<string, any>;
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.openedRoute.stop, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.openedRoute.stops, event.previousIndex, event.currentIndex);
   }
 
 
@@ -29,24 +30,18 @@ export class SingleRouteComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ds: DialogService,
     private router: Router,
-    private snack: SnackbarService
+    private snack: SnackbarService,
+    private differs: KeyValueDiffers
   ) {
     this.routeId = this.route.snapshot.paramMap.get('id');
   }
 
   deleteStop(id) {
-    this.openedRoute.stop = this.openedRoute.stop.filter(s => s.id !== id);
+    this.openedRoute.stops = this.openedRoute.stops.filter(s => s.id !== id);
   }
 
   reverseStops() {
-    this.openedRoute.stop.reverse();
-  }
-
-  reverseInputs() {
-    const temp = this.f.StartLocFormControl.value;
-    this.f.StartLocFormControl.setValue(this.f.EndLocFormControl.value);
-    this.f.EndLocFormControl.setValue(temp);
-    [this.openedRoute.from, this.openedRoute.to] = [this.openedRoute.to, this.openedRoute.from];
+    this.openedRoute.stops.reverse();
   }
 
   onSubmit() {
@@ -54,8 +49,7 @@ export class SingleRouteComponent implements OnInit {
       id: this.openedRoute.id,
       from: this.openedRoute.from.id,
       to: this.openedRoute.to.id,
-      order: this.openedRoute.stop.map(s => s.id).join(', '),
-      stopIds: this.openedRoute.stop.map(s => s.id)
+      stopIds: this.openedRoute.stops.map(s => s.id)
     };
     if (this.form.valid) {
       this.as.editRoute(route, this.routeId).subscribe(res => {
@@ -69,8 +63,18 @@ export class SingleRouteComponent implements OnInit {
   }
 
   addStop() {
-    const filteredStops = this.allStops.filter(stop => !this.openedRoute.stop.map(el => el.id).includes(stop.id));
-    this.ds.openAddDialog(filteredStops, this.openedRoute.stop, 'Przystanki');
+    const filteredStops = this.allStops.filter(stop => !this.openedRoute.stops.map(el => el.id).includes(stop.id));
+    const tableFields = [
+      {
+        column: 'name',
+        header: 'Nazwa przystanku'
+      }
+    ];
+    this.ds.openFindDialog(tableFields, filteredStops, 'Przystanki').subscribe(stop => {
+      if (stop && stop.decision) {
+        this.openedRoute.stops.push(stop.selected);
+      }
+    });
   }
 
   removeRoute() {
@@ -92,8 +96,7 @@ export class SingleRouteComponent implements OnInit {
     const route = {
       from: this.openedRoute.from.id,
       to: this.openedRoute.to.id,
-      order: this.openedRoute.stop.map(s => s.id).join(', '),
-      stopIds: this.openedRoute.stop.map(s => s.id)
+      stopIds: this.openedRoute.stops.map(s => s.id)
     };
     if (this.form.valid) {
       this.as.postRoute(route).subscribe(res => {
@@ -106,11 +109,18 @@ export class SingleRouteComponent implements OnInit {
   ngOnInit() {
     this.as.getRoute(this.routeId).subscribe(data => {
       this.as.getCities().subscribe(stops => {
+        this.openedRoute = {
+          from: '',
+          to: '',
+          order: '',
+          stop: []
+        };
+        this.openedRouteDiffer = this.differs.find(this.openedRoute).create();
         this.allStops = stops;
         this.openedRoute = data;
-        if (this.openedRoute.order && this.openedRoute.stop) {
+        if (this.openedRoute.order && this.openedRoute.stops) {
           const sortingArr = this.openedRoute.order.split(', ').map(el => parseInt(el, 10));
-          this.openedRoute.stop.sort((a, b) => sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id));
+          this.openedRoute.stops.sort((a, b) => sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id));
         }
         this.form = this.formBuilder.group({
           StartLocFormControl: new FormControl(data.from.name, [Validators.required]),
@@ -118,6 +128,22 @@ export class SingleRouteComponent implements OnInit {
         });
       });
     });
+  }
+
+  updateStartEndValues() {
+    if (this.openedRoute.stops.length) {
+      this.openedRoute.from = this.openedRoute.stops[0];
+      this.openedRoute.to = this.openedRoute.stops[this.openedRoute.stops.length - 1];
+    }
+  }
+
+  ngDoCheck(): void {
+    if (this.openedRoute) {
+      const changes = this.openedRouteDiffer.diff(this.openedRoute.stops);
+      if (changes) {
+        this.updateStartEndValues();
+      }
+    }
   }
 
 }

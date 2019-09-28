@@ -84,8 +84,10 @@ export class RouteManagerComponent implements OnInit {
   onSubmit() {
     const route = {
       from: this.f.StartLocFormControl.value.id,
-      to: this.f.EndLocFormControl.value.id
+      to: this.f.EndLocFormControl.value.id,
+      stopIds: [this.f.StartLocFormControl.value.id, this.f.EndLocFormControl.value.id]
     };
+
     if (this.form.valid && !isNaN(route.from) && !isNaN(route.to)) {
       this.as.postRoute(route).subscribe(data => {
         this.redirect('/admin/routes/' + data.id);
@@ -119,12 +121,14 @@ export class RouteManagerComponent implements OnInit {
         this.filteredOptions = this.f.StartLocFormControl.valueChanges
           .pipe(
             startWith(''),
+            // @ts-ignore
             map(value => typeof value === 'string' ? value : value.name),
             map(name => name ? this._filter(name) : this.stops.slice())
           );
         this.filteredOptionsEnd = this.f.EndLocFormControl.valueChanges
           .pipe(
             startWith(''),
+            // @ts-ignore
             map(value => typeof value === 'string' ? value : value.name),
             map(name => name ? this._filter(name) : this.stops.slice())
           );

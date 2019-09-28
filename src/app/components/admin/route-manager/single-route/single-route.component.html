@@ -4,23 +4,13 @@
   </mat-toolbar>
   <div class="mat-elevation-z8">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field>
-        <input [readonly]="true" matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa" formControlName="StartLocFormControl">
-        <mat-error *ngIf="f.StartLocFormControl.errors">
-          <ng-container *ngIf="f.StartLocFormControl.hasError('required') ">Lokalizacja początkowa jest wymagana</ng-container>
-        </mat-error>
-      </mat-form-field>
-      <mat-icon (click)="reverseInputs()" class="reverse-inputs">loop</mat-icon>
-      <mat-form-field>
-        <input [readonly]="true" matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa" formControlName="EndLocFormControl">
-        <mat-error *ngIf="f.EndLocFormControl.errors">
-          <ng-container *ngIf="f.EndLocFormControl.hasError('required') ">Lokalizacja końcowa jest wymagana</ng-container>
-        </mat-error>
-      </mat-form-field>
+      <p *ngIf="this.openedRoute.from"><b>Lokalizacja początkowa: </b>{{this.openedRoute.from.name}}</p>
+      <p *ngIf="this.openedRoute.to && this.openedRoute.stops.length > 1"><b>Lokalizacja
+        końcowa: </b>{{this.openedRoute.to.name}}</p>
     <div>
       <h4>Przebieg trasy</h4>
       <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let stop of openedRoute.stop" cdkDrag>
+        <div class="example-box" *ngFor="let stop of openedRoute.stops" cdkDrag>
           <span>{{stop.id}}: {{stop.name}}</span>
           <mat-icon (click)="deleteStop(stop.id)" class="trash">delete</mat-icon>
         </div>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {IUser} from '../models/user';
 import {HttpClient} from '@angular/common/http';
-import {GLOBAL} from '../config';
 import { Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {IStop} from '../models/stop';
+import {environment} from '../../environments/environment';
 
 
 export interface IUsersResponse {
@@ -20,7 +20,7 @@ export class AdminService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = GLOBAL.URL;
+    this.url = environment.URL;
   }
 
   public getUsers(): Observable<Array<IUser>> {
@@ -63,6 +63,13 @@ export class AdminService {
     }));
   }
 
+  public changeUserPassword(password: string, id: number) {
+    return this.http.post<IStop>(`${this.url}/users/changePassword/${id}`, {password});
+  }
+
+  public deleteUser(id: number) {
+    return this.http.delete(`${this.url}/users/delete/${id}`);
+  }
 
   public addCity(name: IStop): Observable<IStop> {
     return this.http.post<IStop>(`${this.url}/stops`, name);

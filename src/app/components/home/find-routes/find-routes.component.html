@@ -1,0 +1,86 @@
+
+  <div *ngIf="this.form" class="mat-elevation-z8 container">
+  <mat-toolbar color="primary">
+    <span>Wyszukiwanie połączeń</span>
+  </mat-toolbar>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja początkowa"
+               formControlName="StartLocFormControl" [matAutocomplete]="auto1">
+        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptionsFrom | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="f.StartLocFormControl.errors">
+          <ng-container *ngIf="f.StartLocFormControl.hasError('required') ">Lokalizacja początkowa jest wymagana
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+      <mat-icon (click)="reverseInputs()" class="reverse-inputs">loop</mat-icon>
+      <mat-form-field>
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa" formControlName="EndLocFormControl"
+               [matAutocomplete]="auto2">
+        <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptionsTo | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="f.EndLocFormControl.errors">
+          <ng-container *ngIf="f.EndLocFormControl.hasError('required') ">Lokalizacja końcowa jest wymagana
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="date-input" (click)="dp3.open()">
+        <input matInput (dateChange)="dateChangeEvent($event.value)" [matDatepicker]="dp3"
+               placeholder="Data wyszukiwanych połączeń" formControlName="DateFormControl" [min]="startDate">
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <mat-checkbox [formControl]="f.FullDayFormControl" color="primary">Cała doba</mat-checkbox>
+      <button mat-raised-button color="primary">Szukaj</button>
+    </form>
+  </div>
+
+
+<mat-card class="accordion-wrapper">
+  <mat-card-header>
+    <mat-card-title>Wyszukane połączenia ({{foundPassages.length}})</mat-card-title>
+  </mat-card-header>
+
+  <mat-accordion *ngIf="this.foundPassages.length" class="example-headers-align">
+    <mat-expansion-panel *ngFor="let passage of foundPassages; let i = index" [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+      <mat-expansion-panel-header [collapsedHeight]="'90px'" [expandedHeight]="'90px'">
+        <mat-panel-title>
+          <mat-icon>directions_bus</mat-icon>
+          <div class="panel-title">
+            <b>{{findDepartureTime(f.StartLocFormControl.value, i)}} - {{f.StartLocFormControl.value}}</b>
+            <b>{{findDepartureTime(f.EndLocFormControl.value, i)}} - {{f.EndLocFormControl.value}}</b>
+          </div>
+          <mat-panel-description>
+            <span class="company-name">{{passage.company.name}} - {{passage.price}}zł</span>
+            <div class="panel-title">
+              <b>Czas: {{calculatePassageTime(passage.departures)}}</b>
+              <b>Odjazd za: {{passage.departureTime}}</b>
+            </div>
+          </mat-panel-description>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-list role="list" class="stop-list">
+        <mat-list-item *ngFor="let stop of passage.departures" role="listitem">
+         <b>{{convertStopTime(stop.time) | date:'HH:mm'}} - {{stop.name}}</b>
+        </mat-list-item>
+      </mat-list>
+
+
+      <mat-action-row>
+        <button mat-button color="warn" *ngIf="i" (click)="prevStep($event)">Previous</button>
+        <button mat-button color="primary" *ngIf="i !== foundPassages.length - 1" (click)="nextStep()">Next</button>
+        <button mat-button color="primary" *ngIf="i === foundPassages.length - 1" (click)="nextStep()">End</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+

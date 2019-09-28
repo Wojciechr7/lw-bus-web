@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {Router} from '@angular/router';
 
 export interface TableFieldModel {
@@ -13,22 +15,23 @@ export interface TableFieldModel {
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnChanges {
-  public loading: boolean;
-
   @Input() tableFields: TableFieldModel[];
   @Input() tableData: any;
   @Output() clickAction: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[];
 
   constructor() {
-    this.loading = true;
   }
 
   emitClickRow(data) {
     this.clickAction.emit(data);
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit() {
@@ -40,7 +43,6 @@ export class TableComponent implements OnInit, OnChanges {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.displayedColumns = this.tableFields.map(field => field.column);
-      this.loading = false;
     }
 
   }

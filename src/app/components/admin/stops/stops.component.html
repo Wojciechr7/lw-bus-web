@@ -10,13 +10,10 @@
     </form>
     <mat-divider></mat-divider>
 
-    <mat-list *ngIf="stops | async as s; else loading" role="list">
+    <mat-list *ngIf="stops as s" role="list">
         <mat-list-item *ngFor="let item of s" role="listitem" class="city-item">
             <strong>{{item.name}}</strong>
             <button type="button" mat-raised-button color="warn" (click)="removeStop(item)">-</button>
         </mat-list-item>
     </mat-list>
-    <ng-template #loading>
-        <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate"></mat-progress-spinner>
-    </ng-template>
 </mat-card>

@@ -1,0 +1,8 @@
+<mat-card class="container">
+  <mat-toolbar color="primary">
+    <span>Lista połączeń</span>
+  </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <app-table [tableFields]="tableFields" [tableData]="routes" (clickAction)="rowClick($event)"></app-table>
+  </div>
+</mat-card>

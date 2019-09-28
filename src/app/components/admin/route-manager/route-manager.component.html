@@ -34,7 +34,7 @@
 
 
       <mat-form-field>
-        <input matInput type="text" #EndInput maxlength="25" placeholder="Lokalizacja końcowa"
+        <input matInput type="text" maxlength="25" placeholder="Lokalizacja końcowa"
                formControlName="EndLocFormControl" [matAutocomplete]="auto2">
         <mat-error *ngIf="f.EndLocFormControl.errors">
           <ng-container *ngIf="f.EndLocFormControl.hasError('required')">Lokalizacja końcowa jest wymagana

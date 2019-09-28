@@ -1,0 +1,6 @@
+<div class='container' [class.hidden]="!show">
+  <div *ngIf="show">
+    <div class='wrapper'></div>
+    <mat-progress-spinner class='loader' [diameter]="70" color="primary" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>

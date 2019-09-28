@@ -1,0 +1,81 @@
+h2, h4 {
+  text-align: center;
+}
+.container {
+  width: 95%;
+  margin: 20px auto;
+  background: white;
+
+  form {
+    display: flex;
+    flex-flow: column;
+    padding: 20px 40px;
+
+    .reverse-inputs {
+      margin: 15px auto 0 auto;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .date-input {
+      margin-top: 15px;
+    }
+
+    button {
+      margin-top: 15px;
+    }
+  }
+}
+
+
+.accordion-wrapper {
+  margin: 0 10px 100px 10px;
+
+  .example-headers-align .mat-expansion-panel-header-title,
+  .example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  mat-form-field {
+    margin-right: 12px;
+  }
+  .panel-title {
+    display: flex;
+    flex-flow: column;
+    font-size: 13px;
+    margin-left: 5px;
+  }
+  .company-name {
+    margin: auto;
+  }
+
+  mat-list.stop-list {
+    height: fit-content;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 2px;
+      background: black;
+
+    }
+
+    mat-list-item {
+    height: 20px;
+
+      b {
+        font-size: 13px;
+      }
+    }
+
+
+  }
+
+}

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{data.label}}</h1>
+<div mat-dialog-content>
+  <app-table [tableFields]="data.tableFields" [tableData]="data.display" (clickAction)="rowClick($event)"></app-table>
+  <hr>
+  <p *ngIf="selected && selected.name"><b>Wybrano: </b><u>{{selected.name}}</u></p>
+  <p *ngIf="selected && selected.from"><b>Wybrano: </b><u>{{selected.from}} - {{selected.to}}</u></p>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="closeDialog(true)">OK</button>
+    <button mat-raised-button color="warn" (click)="closeDialog(false)">Anuluj</button>
+</div>
