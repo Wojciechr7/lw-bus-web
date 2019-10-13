@@ -142,6 +142,7 @@ export class FindRoutesComponent implements OnInit, OnDestroy {
           date: `${this.f.DateFormControl.value.getDate()}-${this.f.DateFormControl.value.getMonth() + 1}`
         };
         this.hs.getPassages(data).subscribe(passages => {
+          console.log(passages);
           if (!passages.length) {
             this.snack.warning('Nie znaleziono żadnych połączeń');
           }
@@ -211,6 +212,7 @@ export class FindRoutesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.hs.getStops().subscribe(stops => {
+      console.log(stops);
       this.allStops = stops;
       this.form = this.formBuilder.group({
         StartLocFormControl: new FormControl('', [Validators.required]),
