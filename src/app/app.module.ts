@@ -69,6 +69,8 @@ import { FindRoutesComponent } from './components/home/find-routes/find-routes.c
 import {MatExpansionModule} from '@angular/material/expansion';
 import {ChangePasswordDialogComponent} from './dialogs/change-password/change-password.dialog';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BusesComponent } from './components/home/buses/buses.component';
+import { ContactComponent } from './components/home/contact/contact.component';
 
 registerLocaleData(localePl);
 
@@ -101,7 +103,9 @@ registerLocaleData(localePl);
     SingleRouteComponent,
     SingleRouteUserComponent,
     FindRoutesComponent,
-    ChangePasswordDialogComponent
+    ChangePasswordDialogComponent,
+    BusesComponent,
+    ContactComponent
   ],
   imports: [
     TableBuilderModule,

@@ -25,9 +25,8 @@ export class MainNavComponent {
             standard: {
                 title: 'LW BUS',
                 buttons: [
-                    {icon: 'search', name: 'Szukaj Połączenia', route: ''},
-                    {icon: 'directions_bus', name: 'Obsługiwanie Busy', route: ''},
-                    {icon: 'phone', name: 'Kontakt', route: ''},
+                    {icon: 'directions_bus', name: 'Obsługiwanie Busy', route: 'buses'},
+                    {icon: 'phone', name: 'Informacje', route: 'contact'},
                     {icon: 'business_center', name: 'Dla Przewoźników', route: 'for-company'}
                 ]
             },
@@ -35,7 +34,6 @@ export class MainNavComponent {
                 title: 'Panel Administracyjny',
                 buttons: [
                     {icon: 'input', name: 'Logowanie', route: 'admin/login'},
-                    {icon: 'search', name: 'Szukaj Połączenia', route: ''},
                     {icon: 'group_add', name: 'Dodaj Przewoźnika', route: 'admin/add-company'},
                     {icon: 'people', name: 'Zarządzaj Przewoźnikami', route: 'admin/companies'},
                     {icon: 'flag', name: 'Zarządzaj Przystankami', route: 'admin/stops'},
@@ -46,10 +44,9 @@ export class MainNavComponent {
             title: 'Panel obsługi dla firm przewozowych',
             buttons: [
               {icon: 'input', name: 'Logowanie', route: 'for-company/login'},
-              {icon: 'search', name: 'Szukaj Połączenia', route: ''},
               {icon: 'add', name: 'Dodaj połączenie', route: 'for-company/add'},
               {icon: 'list', name: 'Przeglądaj połączenia', route: 'for-company/view'},
-              {icon: 'info', name: 'Informacje', route: 'for-company/info'}
+              /*{icon: 'info', name: 'Informacje', route: 'for-company/info'}*/
             ]
           }
         };

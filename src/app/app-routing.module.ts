@@ -16,15 +16,15 @@ import {InfoComponent} from './components/for-company/info/info.component';
 import {SingleRouteComponent} from './components/admin/route-manager/single-route/single-route.component';
 import {SingleRouteUserComponent} from './components/for-company/single-route/single-route.component';
 import {FindRoutesComponent} from './components/home/find-routes/find-routes.component';
+import {BusesComponent} from './components/home/buses/buses.component';
+import {ContactComponent} from './components/home/contact/contact.component';
 
 const routes: Routes = [
-  /*{ path: '',
-    redirectTo: '/admin/stops',
-    pathMatch: 'full'
-  },*/
   {path: '', component: HomeComponent, children: [
       {path: '', redirectTo: 'find-routes', pathMatch: 'full'},
-      {path: 'find-routes', component: FindRoutesComponent}
+      {path: 'find-routes', component: FindRoutesComponent},
+      {path: 'buses', component: BusesComponent},
+      {path: 'contact', component: ContactComponent}
     ]},
   {path: 'admin', component: AdminComponent, data: { role: 'admin'}, children: [
       {path: '', redirectTo: 'companies', pathMatch: 'full', canActivate: [AuthGuard], data: { role: 'admin'}},

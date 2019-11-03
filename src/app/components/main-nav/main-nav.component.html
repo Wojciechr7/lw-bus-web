@@ -23,10 +23,14 @@
                     aria-label="Toggle sidenav"
                     mat-icon-button
                     (click)="drawer.toggle()"
-                    *ngIf="isHandset$ | async">
+                    *ngIf="isHandset$ | async"
+                    class="burger">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-<!--            <span><a routerLink="/">{{this.navbarSetup[this.as.AppMode]?.title}}</a></span>-->
+            <a routerLink="/" class="search-button">
+            <mat-icon>search</mat-icon>
+            Szukaj Połączenia
+          </a>
           </span>
         </mat-toolbar>
         <ng-content></ng-content>

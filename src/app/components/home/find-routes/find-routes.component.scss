@@ -6,10 +6,18 @@ h2, h4 {
   margin: 20px auto;
   background: white;
 
+  @media(max-width: 768px) {
+    width: 100%;
+  }
+
   form {
     display: flex;
     flex-flow: column;
     padding: 20px 40px;
+
+    @media(max-width: 768px) {
+      padding: 20px 15px;
+    }
 
     .reverse-inputs {
       margin: 15px auto 0 auto;
@@ -30,6 +38,50 @@ h2, h4 {
 
 .accordion-wrapper {
   margin: 0 10px 100px 10px;
+
+  @media(max-width: 768px) {
+    margin: 0 0 100px 0;
+    padding: 16px 0;
+  }
+
+  mat-expansion-panel-header {
+    @media(max-width: 768px) {
+      & {
+        padding: 0;
+        ::ng-deep {
+          .mat-content {
+            display: flex;
+
+            mat-panel-title {
+              margin: 0;
+              mat-icon {
+                margin: auto 0;
+              }
+
+              .panel-title {
+                margin: auto 5px;
+                font-size: 12px;
+                width: calc(100% - 220px);
+              }
+
+              mat-panel-description {
+                margin: 0;
+                font-size: 12px;
+
+                .panel-title {
+                  width: max-content;
+                  white-space: nowrap;
+                  display: flex;
+                  font-size: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
 
   .example-headers-align .mat-expansion-panel-header-title,
   .example-headers-align .mat-expansion-panel-header-description {

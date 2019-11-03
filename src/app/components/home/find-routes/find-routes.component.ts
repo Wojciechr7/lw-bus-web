@@ -171,6 +171,9 @@ export class FindRoutesComponent implements OnInit, OnDestroy {
   }
 
   private sortPassages(passages) {
+    passages.map(p => {
+      return p.departures.find(d => d.name === this.f.StartLocFormControl.value);
+    });
     return passages.map(p => {
       return p.departures.find(d => d.name === this.f.StartLocFormControl.value);
     })

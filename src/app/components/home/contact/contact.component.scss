@@ -1,0 +1,16 @@
+.container {
+  width: 95%;
+  margin: 20px auto;
+  background: white;
+
+  .content {
+    padding: 0 30px 30px 30px;
+
+    @media(min-width: 768px) {
+      p.break-text {
+        column-count:2;
+        column-gap: 20px;
+      }
+    }
+  }
+}

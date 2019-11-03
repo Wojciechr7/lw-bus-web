@@ -14,11 +14,16 @@ export class HomeService {
   }
 
   public getPassages({from, to, hour, date}): Observable<any> {
+    console.log(`${this.url}/publicApi/passages/${from}/${to}/${hour}/${date}/${new Date().getFullYear()}`);
     return this.http.get(`${this.url}/publicApi/passages/${from}/${to}/${hour}/${date}/${new Date().getFullYear()}`);
   }
 
   public getStops(): Observable<any> {
     return this.http.get(`${this.url}/publicApi/stops`);
+  }
+
+  public getCompanies(): Observable<any> {
+    return this.http.get(`${this.url}/publicApi/buses`);
   }
 
 }
